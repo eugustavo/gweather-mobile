@@ -1,4 +1,4 @@
-import {extendTheme} from 'native-base'
+import { extendTheme } from 'native-base'
 
 export const THEME = extendTheme({
   colors: {
@@ -7,8 +7,8 @@ export const THEME = extendTheme({
     black: '#000000',
   },
   fonts: {
-    heading: 'Roboto_700Bold',
-    body: 'Roboto_400Regular',
+    heading: 'Poppins-Bold',
+    body: 'Poppins-Regular',
   },
   fontSizes: {
     xs: 12,
