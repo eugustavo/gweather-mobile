@@ -1,6 +1,9 @@
 import React from 'react'
-import { Box, NativeBaseProvider, Text } from 'native-base'
 import { SafeAreaView, StatusBar } from 'react-native'
+import { NativeBaseProvider, VStack } from 'native-base'
+
+import { Home } from '@screens/Home'
+
 import { THEME } from './src/theme'
 
 function App() {
@@ -9,11 +12,9 @@ function App() {
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
 
       <NativeBaseProvider theme={THEME}>
-        <Box flex={1} bg="white" alignItems="center" justifyContent="center">
-          <Text color="subtitle">
-            Open up App.tsx to start working on your app!
-          </Text>
-        </Box>
+        <VStack flex={1} bg="#fff">
+          <Home />
+        </VStack>
       </NativeBaseProvider>
     </SafeAreaView>
   )
