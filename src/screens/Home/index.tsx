@@ -1,155 +1,82 @@
-import dayjs from 'dayjs'
-import { TouchableOpacity } from 'react-native'
-import { HStack, Text, VStack, SimpleGrid, FlatList, Box } from 'native-base'
-import Feather from 'react-native-vector-icons/Feather'
+import { useEffect } from 'react'
+import { VStack, ScrollView, useToast } from 'native-base'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { Header } from '@components/Header'
+import { CurrentWeather } from '@components/CurrentWeather'
+import { WeatherWidget } from '@components/WeatherWidget'
+import { ForecastNextDays } from '@components/ForecastNextDays'
+
+import { useSearch } from '@store/slices/activeSearch'
+import { addPosition, usePosition } from '@store/slices/position'
+import { setLocation } from '@store/slices/location'
+
+import { api } from '@services/api'
+import Geolocation from '@react-native-community/geolocation'
 
 export function Home() {
+  const { activeSearch } = useSelector(useSearch)
+  const { position } = useSelector(usePosition)
+
+  const toast = useToast()
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    async function getPosition() {
+      try {
+        const { data } = await api.get('/forecast.json', {
+          params: {
+            q: `${position.lat},${position.lng}`,
+            units: 'metric',
+            days: 3,
+          },
+        })
+
+        dispatch(setLocation(data))
+      } catch (error) {
+        console.log(error)
+        toast.show({
+          title: 'Erro ao buscar localização. Tente novamente.',
+          placement: 'top',
+          bgColor: 'red.500',
+        })
+      }
+    }
+
+    getPosition()
+  }, [dispatch, position])
+
+  useEffect(() => {
+    Geolocation.requestAuthorization(() => {
+      Geolocation.getCurrentPosition((position) => {
+        dispatch(
+          addPosition({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          }),
+        )
+      })
+    })
+  }, [dispatch])
+
   return (
     <VStack flex={1} px={8}>
       <Header />
 
-      <Box opacity={1}>
-        <VStack mt={12} alignItems="center" justifyContent="center">
-          <Text fontSize="96px" color="black" fontFamily="heading">
-            32°
-          </Text>
-          <Text fontSize="sm" color="subtitle" mt={-6}>
-            Ensolarado
-          </Text>
-        </VStack>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          flexGrow: 1,
+          paddingBottom: 40,
+          opacity: activeSearch ? 0.1 : 1,
+        }}
+      >
+        <CurrentWeather />
 
-        <VStack mt={12} alignItems="center" justifyContent="center">
-          <SimpleGrid columns={2} space={4}>
-            <HStack
-              p={6}
-              space={4}
-              rounded="md"
-              alignItems="center"
-              justifyContent="center"
-              borderWidth={1}
-              borderColor="gray.100"
-              maxWidth="150px"
-            >
-              <Feather name="wind" size={24} color="#2E3034" />
+        <WeatherWidget />
 
-              <VStack alignItems="flex-start">
-                <Text fontSize="sm" color="subtitle">
-                  Vento
-                </Text>
-                <Text fontSize="sm" color="title" fontFamily="heading">
-                  10 km/h
-                </Text>
-              </VStack>
-            </HStack>
-
-            <HStack
-              p={6}
-              space={4}
-              rounded="md"
-              alignItems="center"
-              justifyContent="center"
-              borderWidth={1}
-              borderColor="gray.100"
-              maxWidth="150px"
-            >
-              <Feather name="sun" size={24} color="#2E3034" />
-
-              <VStack alignItems="flex-start">
-                <Text fontSize="sm" color="subtitle">
-                  Index UV
-                </Text>
-                <Text fontSize="sm" color="title" fontFamily="heading">
-                  0
-                </Text>
-              </VStack>
-            </HStack>
-
-            <HStack
-              p={6}
-              space={4}
-              rounded="md"
-              alignItems="center"
-              justifyContent="center"
-              borderWidth={1}
-              borderColor="gray.100"
-              maxWidth="150px"
-            >
-              <Feather name="eye" size={24} color="#2E3034" />
-
-              <VStack alignItems="flex-start">
-                <Text fontSize="sm" color="subtitle">
-                  Visibilidade
-                </Text>
-                <Text fontSize="sm" color="title" fontFamily="heading">
-                  4.5 km
-                </Text>
-              </VStack>
-            </HStack>
-
-            <HStack
-              p={6}
-              space={4}
-              rounded="md"
-              alignItems="center"
-              justifyContent="center"
-              borderWidth={1}
-              borderColor="gray.100"
-              maxWidth="150px"
-            >
-              <Feather name="droplet" size={24} color="#2E3034" />
-
-              <VStack alignItems="flex-start">
-                <Text fontSize="sm" color="subtitle">
-                  Humidade
-                </Text>
-                <Text fontSize="sm" color="title" fontFamily="heading">
-                  89%
-                </Text>
-              </VStack>
-            </HStack>
-          </SimpleGrid>
-        </VStack>
-
-        <VStack mt={8} alignItems="flex-start">
-          <Text fontSize="md" color="title">
-            Próximos 7 dias
-          </Text>
-
-          <FlatList
-            data={[1, 2, 3, 4, 5, 6, 7]}
-            keyExtractor={(item) => String(item)}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            renderItem={({ item, index }) => (
-              <TouchableOpacity>
-                <VStack
-                  py={4}
-                  px={3}
-                  mr={2}
-                  space={4}
-                  rounded="md"
-                  alignItems="center"
-                  justifyContent="center"
-                  borderWidth={1}
-                  borderColor="gray.100"
-                >
-                  <Text fontSize="xs" color="subtitle">
-                    {dayjs(new Date())
-                      .add(index + 1, 'day')
-                      .format('DD/MM')}
-                  </Text>
-
-                  <Text fontSize="lg" color="title" fontFamily="heading">
-                    32°
-                  </Text>
-                </VStack>
-              </TouchableOpacity>
-            )}
-          />
-        </VStack>
-      </Box>
+        <ForecastNextDays />
+      </ScrollView>
     </VStack>
   )
 }

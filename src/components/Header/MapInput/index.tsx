@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { TouchableOpacity, StyleSheet } from 'react-native'
 import { Center, HStack, Image, VStack } from 'native-base'
 import {
@@ -7,19 +7,31 @@ import {
 } from 'react-native-google-places-autocomplete'
 import Feather from 'react-native-vector-icons/Feather'
 
+import { useSearch, toggleActiveSearch } from '@store/slices/activeSearch'
+import { addPosition } from '@store/slices/position'
+
+import { GOOGLE_PLACES_KEY } from '../../../keys'
+
 import mapImg from '@assets/map.png'
 
 export function MapInput() {
-  const [showInput, setShowInput] = useState(false)
+  const dispatch = useDispatch()
+
+  const { activeSearch } = useSelector(useSearch)
 
   function handleSearch(location: Point) {
-    console.log(location)
-    setShowInput(false)
+    dispatch(addPosition(location))
+    dispatch(toggleActiveSearch())
   }
 
   return (
-    <VStack w="full" h={12} mb={4} alignItems={showInput ? null : 'flex-end'}>
-      {showInput ? (
+    <VStack
+      w="full"
+      h={12}
+      mb={4}
+      alignItems={activeSearch ? null : 'flex-end'}
+    >
+      {activeSearch ? (
         <HStack alignItems="flex-start" justifyContent="space-between">
           <GooglePlacesAutocomplete
             placeholder="Pesquisar cidade"
@@ -27,8 +39,9 @@ export function MapInput() {
             GooglePlacesDetailsQuery={{ fields: 'geometry' }}
             enablePoweredByContainer={false}
             query={{
-              key: 'AIzaSyChJ2uQkfnDecnHNoYNR2QYXYMozrVya9E',
+              key: GOOGLE_PLACES_KEY,
               language: 'pt-BR',
+              type: '(cities)',
             }}
             onPress={(_, details) =>
               details?.geometry && handleSearch(details?.geometry.location)
@@ -46,7 +59,7 @@ export function MapInput() {
             }}
           />
 
-          <TouchableOpacity onPress={() => setShowInput(!showInput)}>
+          <TouchableOpacity onPress={() => dispatch(toggleActiveSearch())}>
             <Center
               borderWidth={1}
               borderColor="gray.300"
@@ -60,7 +73,7 @@ export function MapInput() {
           </TouchableOpacity>
         </HStack>
       ) : (
-        <TouchableOpacity onPress={() => setShowInput(!showInput)}>
+        <TouchableOpacity onPress={() => dispatch(toggleActiveSearch())}>
           <Image source={mapImg} alt="Mapa" w={8} h={8} />
         </TouchableOpacity>
       )}
