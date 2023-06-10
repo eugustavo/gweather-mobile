@@ -10,8 +10,6 @@ import Feather from 'react-native-vector-icons/Feather'
 import { useSearch, toggleActiveSearch } from '@store/slices/activeSearch'
 import { addPosition } from '@store/slices/position'
 
-import { GOOGLE_PLACES_KEY } from '../../../keys'
-
 import mapImg from '@assets/map.png'
 
 export function MapInput() {
@@ -39,7 +37,7 @@ export function MapInput() {
             GooglePlacesDetailsQuery={{ fields: 'geometry' }}
             enablePoweredByContainer={false}
             query={{
-              key: GOOGLE_PLACES_KEY,
+              key: 'AIzaSyChJ2uQkfnDecnHNoYNR2QYXYMozrVya9E',
               language: 'pt-BR',
               type: '(cities)',
             }}
