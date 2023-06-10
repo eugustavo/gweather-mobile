@@ -12,7 +12,7 @@ module.exports = {
           '@utils': './src/utils',
           '@services': './src/services',
           '@hooks': './src/hooks',
-          '@libs': './src/libs',
+          '@store': './src/store',
         },
       },
     ],

@@ -1,10 +1,13 @@
+import 'dayjs/locale/pt-br'
 import React from 'react'
 import { SafeAreaView, StatusBar } from 'react-native'
 import { NativeBaseProvider, VStack } from 'native-base'
+import { Provider } from 'react-redux'
 
 import { Home } from '@screens/Home'
 
 import { THEME } from './src/theme'
+import store from './src/store'
 
 function App() {
   return (
@@ -12,9 +15,11 @@ function App() {
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
 
       <NativeBaseProvider theme={THEME}>
-        <VStack flex={1} bg="#fff">
-          <Home />
-        </VStack>
+        <Provider store={store}>
+          <VStack flex={1} bg="#fff">
+            <Home />
+          </VStack>
+        </Provider>
       </NativeBaseProvider>
     </SafeAreaView>
   )
