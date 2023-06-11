@@ -12,7 +12,7 @@ export function Header() {
   const { location } = useSelector(useLocation)
 
   return (
-    <VStack w="full" alignItems="center">
+    <VStack w="full" alignItems="center" mt={4}>
       <MapInput />
 
       <Center opacity={activeSearch ? 0.1 : 1}>

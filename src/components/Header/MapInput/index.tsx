@@ -26,7 +26,7 @@ export function MapInput() {
     <VStack
       w="full"
       h={12}
-      mb={4}
+      mb={2}
       alignItems={activeSearch ? null : 'flex-end'}
     >
       {activeSearch ? (
