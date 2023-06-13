@@ -34,7 +34,6 @@ export function Home() {
 
         dispatch(setLocation(data))
       } catch (error) {
-        console.log(error)
         toast.show({
           title: 'Erro ao buscar localização. Tente novamente.',
           placement: 'top',

@@ -12,6 +12,8 @@ import { addPosition } from '@store/slices/position'
 
 import mapImg from '@assets/map.png'
 
+import { GOOGLE_PLACES_API_KEY } from 'react-native-dotenv'
+
 export function MapInput() {
   const dispatch = useDispatch()
 
@@ -37,7 +39,7 @@ export function MapInput() {
             GooglePlacesDetailsQuery={{ fields: 'geometry' }}
             enablePoweredByContainer={false}
             query={{
-              key: 'AIzaSyChJ2uQkfnDecnHNoYNR2QYXYMozrVya9E',
+              key: GOOGLE_PLACES_API_KEY,
               language: 'pt-BR',
               type: '(cities)',
             }}
@@ -47,13 +49,8 @@ export function MapInput() {
             styles={{
               container: styles.container,
               textInput: styles.input,
-              row: {
-                backgroundColor: 'black',
-                zIndex: 1,
-              },
-              description: {
-                color: '#fff',
-              },
+              row: styles.row,
+              description: styles.description,
             }}
           />
 
@@ -85,12 +82,18 @@ const styles = StyleSheet.create({
     zIndex: 1,
     width: '85%',
   },
-
   input: {
     height: 40,
     top: 1.5,
     borderRadius: 8,
     borderWidth: 1,
     borderColor: '#d4d4d8',
+  },
+  row: {
+    backgroundColor: 'black',
+    zIndex: 1,
+  },
+  description: {
+    color: '#fff',
   },
 })
