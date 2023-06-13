@@ -3,9 +3,9 @@
 	<img  alt="GWeather Logo"  src="https://github.com/eugustavo/github-badges/assets/25755550/3ad4ee05-7271-4063-94af-a7cb1c233abe"  width="100px" />
 </p>
 
-<div>
-  <img  alt="GWeather iOS"  src="https://github.com/eugustavo/gweather-mobile/assets/25755550/c438f31e-a8f7-490e-891c-059991c99a71" />
-  <img  alt="GWeather Android"  src="https://github.com/eugustavo/gweather-mobile/assets/25755550/90e31147-6e55-4489-af06-265ba221a766" />
+<div align="center">
+  <img  alt="GWeather iOS"  src="https://github.com/eugustavo/gweather-mobile/assets/25755550/c438f31e-a8f7-490e-891c-059991c99a71"  width="300px" />
+  <img  alt="GWeather Android"  src="https://github.com/eugustavo/gweather-mobile/assets/25755550/90e31147-6e55-4489-af06-265ba221a766"  width="300px" />
 </div>
 
 
