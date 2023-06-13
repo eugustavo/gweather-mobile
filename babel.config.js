@@ -4,9 +4,9 @@ module.exports = {
     [
       'module:react-native-dotenv',
       {
-        moduleName: 'react-native-dotenv',
-        verbose: false,
-        allowlist: ['GOOGLE_PLACES_API_KEY', 'RAPID_API_KEY'],
+        envName: 'APP_ENV',
+        moduleName: '@env',
+        path: '.env',
       },
     ],
     [

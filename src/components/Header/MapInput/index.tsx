@@ -12,7 +12,7 @@ import { addPosition } from '@store/slices/position'
 
 import mapImg from '@assets/map.png'
 
-import { GOOGLE_PLACES_API_KEY } from 'react-native-dotenv'
+import { GOOGLE_PLACES_API_KEY } from '@env'
 
 export function MapInput() {
   const dispatch = useDispatch()

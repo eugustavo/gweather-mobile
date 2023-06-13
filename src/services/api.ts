@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { RAPID_API_KEY } from 'react-native-dotenv'
+import { RAPID_API_KEY } from '@env'
 
 export const api = axios.create({
   baseURL: 'https://weatherapi-com.p.rapidapi.com',
